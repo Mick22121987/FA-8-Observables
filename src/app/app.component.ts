@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Observer, Subscription } from 'rxjs';
+import { Observable, Observer, Subject, Subscription, BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,7 +8,9 @@ import { Observable, Observer, Subscription } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
-    const obs = Observable.create((observer: Observer<any>) => {
+    // Gestion des observables
+      console.log('Gestion des observables');
+      const obs = Observable.create((observer: Observer<any>) => {
       const data = 2;
       observer.next(2);
       observer.next(3);
@@ -36,6 +38,29 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     sub2.unsubscribe();
+
+    // Gestion des subjects
+      console.log('Gestion des subjects');
+      const subj = new BehaviorSubject<number>(0);
+
+    subj.next(1);
+
+    const s1 = subj.subscribe( (x: number) => {
+      console.log('[S1] : ', x);
+    });
+
+    // subj.next(2);
+
+    const s2 = subj.subscribe( (x: number) => {
+      console.log('[S2] : ', x);
+    });
+
+    // subj.next(3);
+
+    s1.unsubscribe();
+
+    // subj.next(4);
+
   }
 
   ngOnDestroy(): void {
